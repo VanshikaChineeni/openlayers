@@ -5,5 +5,3 @@ node_modules/
 .vitest-attachments/
 __screenshots__/
 /examples/.env
-
-.env.local

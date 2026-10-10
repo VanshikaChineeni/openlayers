@@ -19,17 +19,22 @@ for (let i = 0; i <= 8; ++i) {
   resolutions.push(156543.03392804097 / Math.pow(2, i * 2));
 }
 // Calculation of tile urls for zoom levels 1, 3, 5, 7, 9, 11, 13, 15.
+// Calculation of tile urls for zoom levels 1, 3, 5, 7, 9, 11, 13, 15.
 function tileUrlFunction(tileCoord) {
   const z = tileCoord[0] * 2 - 1;
   const x = tileCoord[1];
-  // The mathematical Y-axis inversion flip required for Mapbox v4 schemas:
   const y = tileCoord[2];
+  
+  // Dynamically cycle through subdomains a, b, c, d to spread the network load
+  const subdomain = 'abcd'.charAt(((tileCoord[1] << tileCoord[0]) + tileCoord[2]) % 4);
 
   return (
-  'https://api.mapbox.com/v4/mapbox.mapbox-streets-v8/' +
-  z + '/' + x + '/' + y + '.vector.pbf?access_token=' + key
+    `https://${subdomain}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/` +
+    `${z}/${x}/${y}.vector.pbf?access_token=` +
+    key
   );
 }
+
 
 const map = new Map({
   layers: [
